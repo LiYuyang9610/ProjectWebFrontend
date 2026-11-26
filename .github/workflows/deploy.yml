@@ -29,6 +29,7 @@ jobs:
 
       - name: Package Artifacts
         run: |
+          cp index.html .build/plugins/PackageToJS/outputs/Package/
           tar -czf frontend-dist.tar.gz -C .build/plugins/PackageToJS/outputs/Package .
 
       - name: Upload to Rolling Release
@@ -38,3 +39,16 @@ jobs:
           name: Latest Frontend Build
           files: frontend-dist.tar.gz
           make_latest: true
+
+
+      - name: Notify Deployer
+        env:
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+        run: |
+          PAYLOAD='{"action":"published"}'
+          SIG="sha256=$(printf '%s' "$PAYLOAD" | openssl dgst -sha256 -hmac "$WEBHOOK_SECRET" | sed 's/^.* //')"
+          curl -f -X POST https://43.155.204.138/webhook/frontend \
+            -H "Content-Type: application/json" \
+            -H "X-GitHub-Event: release" \
+            -H "X-Hub-Signature-256: $SIG" \
+            -d "$PAYLOAD"
