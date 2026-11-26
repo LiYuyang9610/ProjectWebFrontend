@@ -149,6 +149,7 @@ iOSInjectionProject/
 *.css
 *.htm
 *.html
+!index.html
 *.js
 *.jsp
 *.php
