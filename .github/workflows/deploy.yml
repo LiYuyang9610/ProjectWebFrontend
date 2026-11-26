@@ -1,0 +1,40 @@
+name: Build and Release Swift Wasm
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write  # 允许自动创建/更新 Release
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Swift 6.4.3 and Wasm SDK
+        run: |
+          curl -L https://download.swift.org/swiftly/linux/swiftly-x86_64.tar.gz | tar xz
+          ./swiftly init --quiet-shell-followup -y
+          source "$HOME/.local/share/swiftly/env.sh"
+          swiftly install 6.4.3 --use
+          swift sdk install swift sdk install https://download.swift.org/swift-6.4.3-release/wasm-sdk/swift-6.4.3-RELEASE/swift-6.4.3-RELEASE_wasm.artifactbundle.tar.gz --checksum 5f24408dc9737ce4cb23b7e3ed4306cabfa02cc02f22ab260b14579b955d4b12
+
+      - name: Build Wasm Frontend
+        run: |
+          source "$HOME/.local/share/swiftly/env.sh"
+          swift package --swift-sdk swift-6.4.3-RELEASE_wasm js --use-cdn
+
+      - name: Package Artifacts
+        run: |
+          tar -czf frontend-dist.tar.gz -C .build/plugins/PackageToJS/outputs/Package .
+
+      - name: Upload to Rolling Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest Frontend Build
+          files: frontend-dist.tar.gz
+          make_latest: true
