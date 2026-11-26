@@ -20,7 +20,7 @@ jobs:
           ./swiftly init --quiet-shell-followup -y
           source "$HOME/.local/share/swiftly/env.sh"
           swiftly install 6.4.3 --use
-          swift sdk install swift sdk install https://download.swift.org/swift-6.4.3-release/wasm-sdk/swift-6.4.3-RELEASE/swift-6.4.3-RELEASE_wasm.artifactbundle.tar.gz --checksum 5f24408dc9737ce4cb23b7e3ed4306cabfa02cc02f22ab260b14579b955d4b12
+          swift sdk install https://download.swift.org/swift-6.4.3-release/wasm-sdk/swift-6.4.3-RELEASE/swift-6.4.3-RELEASE_wasm.artifactbundle.tar.gz --checksum 5f24408dc9737ce4cb23b7e3ed4306cabfa02cc02f22ab260b14579b955d4b12
 
       - name: Build Wasm Frontend
         run: |
