@@ -17,7 +17,7 @@ struct Frontend {
         _ = document.body.appendChild(desc)
 
         let link = document.createElement("a")
-        link.href = "/hello"
+        link.href = "/hello/datasource"
         link.innerText = "test /hello api"
         _ = document.body.appendChild(link)
     }
