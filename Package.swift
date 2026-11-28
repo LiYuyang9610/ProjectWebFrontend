@@ -7,6 +7,7 @@ let package = Package(
     name: "Frontend",
     dependencies: [
         .package(url: "https://github.com/swiftwasm/JavaScriptKit.git", branch: "main"),
+        .package(url: "https://github.com/elementary-swift/elementary-ui.git", from: "0.9.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -15,6 +16,7 @@ let package = Package(
             name: "Frontend",
             dependencies: [
                 .product(name: "JavaScriptKit", package: "JavaScriptKit"),
+                .product(name: "ElementaryUI", package: "elementary-ui"),
             ],
             swiftSettings: [
                 .enableUpcomingFeature("ApproachableConcurrency"),
