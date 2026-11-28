@@ -5,6 +5,9 @@
   "scripts": {
     "build": "vite build"
   },
+  "dependencies": {
+    "@bjorn3/browser_wasi_shim": "latest"
+  },
   "devDependencies": {
     "vite": "^7.0.0",
     "@elementary-swift/vite-plugin-swift-wasm": "latest"
