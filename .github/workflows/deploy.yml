@@ -21,16 +21,22 @@ jobs:
           source "$HOME/.local/share/swiftly/env.sh"
           swiftly install 6.4.3 --use
           swift sdk install https://download.swift.org/swift-6.4.3-release/wasm-sdk/swift-6.4.3-RELEASE/swift-6.4.3-RELEASE_wasm.artifactbundle.tar.gz --checksum 5f24408dc9737ce4cb23b7e3ed4306cabfa02cc02f22ab260b14579b955d4b12
+          echo "$HOME/.local/share/swiftly/bin" >> "$GITHUB_PATH"
 
-      - name: Build Wasm Frontend
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Build with Vite
         run: |
-          source "$HOME/.local/share/swiftly/env.sh"
-          swift package --swift-sdk swift-6.4.3-RELEASE_wasm js --use-cdn
+          swift --version
+          npm install
+          npm run build
 
       - name: Package Artifacts
         run: |
-          cp index.html .build/plugins/PackageToJS/outputs/Package/
-          tar -czf frontend-dist.tar.gz -C .build/plugins/PackageToJS/outputs/Package .
+          tar -czf frontend-dist.tar.gz -C dist .
 
       - name: Upload to Rolling Release
         uses: softprops/action-gh-release@v2
@@ -39,7 +45,6 @@ jobs:
           name: Latest Frontend Build
           files: frontend-dist.tar.gz
           make_latest: true
-
 
       - name: Notify Deployer
         env:
