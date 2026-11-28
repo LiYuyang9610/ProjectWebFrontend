@@ -11,7 +11,7 @@ struct AppView: View {
             button { "+1" }
                 .onClick { count += 1 }
             div {
-                a(.href("/hello")) { "访问后端 /hello" }
+                a(.href("/hello/database")) { "visit /hello/database" }
             }
         }
     }
