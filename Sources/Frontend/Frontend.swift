@@ -3,10 +3,10 @@
 
 import ElementaryUI
 
+@MainActor
 @main
 struct Frontend {
     static func main() {
-        let app = Application(AppView())
-        app.mount(in: "#app")
+        Application(AppView()).mount(in: "#app")
     }
 }

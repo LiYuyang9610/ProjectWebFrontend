@@ -1,0 +1,12 @@
+{
+  "name": "project-web-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "vite-plugin-swift-wasm": "latest"
+  }
+}
